@@ -18,5 +18,11 @@ spec:
         - name: backend-app
           # Will be replaced by kustomize anyway
           image: quay.io/tim_walter_ibm/emea-06-next:1
+          env:
+            - name: OWM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-keys
+                  key: owm
           ports:
             - containerPort: 3000

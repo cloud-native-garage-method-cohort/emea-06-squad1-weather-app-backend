@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
-const OWN_API_KEY = 'CHANGE_ME';
+const OWN_API_KEY = process.env.OWM_API_KEY || 'CHANGE_ME';
 
 router.get('/', async (req, res) => {
   const { city } = req.query;
