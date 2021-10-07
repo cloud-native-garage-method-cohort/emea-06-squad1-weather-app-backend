@@ -3,7 +3,6 @@ const fetch = require('node-fetch');
 const OWN_API_KEY = process.env.OWM_API_KEY || 'CHANGE_ME';
 
 router.get('/', async (req, res) => {
-  console.log(process.env);
   const { city } = req.query;
 
   if (!city) {
@@ -14,7 +13,6 @@ router.get('/', async (req, res) => {
   }
 
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${OWN_API_KEY}`;
-
   try {
     const {
       name,
