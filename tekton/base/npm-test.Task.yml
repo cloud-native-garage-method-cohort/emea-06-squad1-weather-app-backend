@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: npm-test
+spec:
+  steps:
+    - name: npm-test
+      image: quay.io/upslopeio/node-alpine
+      command:
+        - npm
+      args:
+        - install-ci-test
+      workingDir: $(workspaces.source.path)
+  workspaces:
+    - name: source
+      description: contains the cloned git repo

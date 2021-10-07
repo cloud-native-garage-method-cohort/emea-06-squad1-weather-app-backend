@@ -1,0 +1,68 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: vcs-trigger
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: ci-pipeline-run-
+      spec:
+        pipelineRef:
+          name: ci-pipeline
+        serviceAccountName: build-bot
+        params:
+          - name: app-name
+            value: next-app
+          - name: source-repo
+            value: https://github.com/cloud-native-garage-method-cohort/emea-06-serena-tim-e2e
+          - name: image-repo
+            # Change this to your image
+            value: tim_walter_ibm/emea-06-next
+        workspaces:
+          - name: shared
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 10Mi
+          - name: production-repository
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 10Mi
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: vcs-trigger
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: vcs-trigger
+spec:
+  serviceAccountName: vcs-trigger
+  triggers:
+    - bindings:
+        - ref: vcs-trigger
+      template:
+        name: vcs-trigger
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: vcs-trigger
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: el-vcs-trigger
+    weight: 100

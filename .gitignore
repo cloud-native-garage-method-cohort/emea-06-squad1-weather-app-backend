@@ -1,5 +1,7 @@
 build
 
+*.Secret.yml
+
 # Logs
 logs
 *.log
