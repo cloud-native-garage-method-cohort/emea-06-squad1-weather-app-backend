@@ -7,19 +7,18 @@ spec:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
-        generateName: ci-pipeline-run-
+        generateName: backend-pipeline-run-
       spec:
         pipelineRef:
-          name: ci-pipeline
+          name: backend-pipeline
         serviceAccountName: build-bot
         params:
           - name: app-name
-            value: next-app
+            value: weather-app-backend
           - name: source-repo
-            value: https://github.com/cloud-native-garage-method-cohort/emea-06-serena-tim-e2e
+            value: https://github.com/cloud-native-garage-method-cohort/emea-06-squad1-weather-app-backend
           - name: image-repo
-            # Change this to your image
-            value: tim_walter_ibm/emea-06-next
+            value: quay.io/tim_walter_ibm/emea-06-squad1-weather-backend
         workspaces:
           - name: shared
             volumeClaimTemplate:
@@ -37,6 +36,7 @@ spec:
                 resources:
                   requests:
                     storage: 10Mi
+
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
