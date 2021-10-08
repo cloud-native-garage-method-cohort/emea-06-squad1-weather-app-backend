@@ -45,5 +45,10 @@ data:
   owm: <Base64 Encoded OWM Api Key>
 ```
 
+Then you'll have to update the parameters for the Pipeline Runs:
+
+- Inside \*.PipelineRun.yml -> `source-repo`, `image-repo`
+- If you're planning to use the VCS build trigger, also update the same parameter inside the PipelineRun Template (See `vcs-trigger.EventListener.yml -> TriggerTemplate`)
+
 After that you can either run `oc create -f backend.PipelineRun.yml` (or `frontend.PipelineRun.yml`)
 or use the created VCS build trigger routes as webhook inside your forked repositories.
