@@ -83,20 +83,20 @@ spec:
       workspaces:
         - name: source
           workspace: shared
-    # - name: save-configuration
-    #   params:
-    #     - name: manifest
-    #       value: $(tasks.create-configuration.results.manifest)
-    #     - name: app-name
-    #       value: $(params.app-name)
-    #     - name: sha
-    #       value: $(tasks.fetch-repository.results.commit)
-    #   runAfter:
-    #     - deploy
-    #   taskRef:
-    #     name: save-configuration
-    #   workspaces:
-    #     - name: source
-    #       workspace: shared
-    #     - name: target
-    #       workspace: production-repository
+    - name: save-configuration
+      params:
+        - name: manifest
+          value: $(tasks.create-configuration.results.manifest)
+        - name: app-name
+          value: $(params.app-name)
+        - name: sha
+          value: $(tasks.fetch-repository.results.commit)
+      runAfter:
+        - deploy
+      taskRef:
+        name: save-configuration
+      workspaces:
+        - name: source
+          workspace: shared
+        - name: target
+          workspace: production-repository
